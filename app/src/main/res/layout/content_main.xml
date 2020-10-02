@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.appsnipp.news.MainActivity"
+    tools:showIn="@layout/app_bar_main"
+    style="@style/parent.contentLayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingBottom="10dp"
+        android:elevation="999dp"
+        android:gravity="bottom"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_edittext_bg"
+            android:hint="@string/text_hint"
+            android:textAlignment="center"
+            android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"/>
+
+
+    </RelativeLayout>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingRight="@dimen/normalPadding"
+            android:paddingLeft="@dimen/normalPadding">
+
+            <!--replace with recycler view-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+                <include
+                    layout="@layout/layout_topics"/>
+
+            </LinearLayout>
+            
+            <!--replace with recycler view-->
+            <include
+                layout="@layout/layout_featured_news"/>
+
+            <!--replace with recycler view-->
+
+
+            <include
+                layout="@layout/layout_news"/>
+
+            <include
+                layout="@layout/layout_news"/>
+
+            <include
+                layout="@layout/layout_news"/>
+
+            <include
+                layout="@layout/layout_news"/>
+            <include
+                layout="@layout/layout_news"/>
+
+            <include
+                layout="@layout/layout_news"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.constraint.ConstraintLayout>
