@@ -1,5 +1,5 @@
 package com.appsnipp.news;
-
+import java.util.*;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
