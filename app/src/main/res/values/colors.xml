@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FCFCFC</color>
+    <!--<color name="colorPrimary">#FCFCFC</color>-->
+    <color name="colorPrimary">#1A2B57</color>
     <color name="colorPrimaryDark">#2A2E43</color>
-    <color name="colorAccent">#FF402D</color>
+    <color name="colorAccent">#03A9F4</color>
     <color name="bottomNavigationTintColor">#B2B2B2</color>
     <color name="bottomNavigationSelectedColor">#FC4926</color>
+    <color name="backcolor">#ECF4FB</color>
 
     <!--colors for light mode-->
     <color name="contentBodyColor">#FCFCFC</color>

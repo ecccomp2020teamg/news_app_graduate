@@ -4,26 +4,26 @@
     <item
         android:id="@+id/navigationMenu"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="Menu" />
+        android:title="メニュー" />
 
     <item
         android:id="@+id/navigationMyCourses"
         android:icon="@drawable/ic_effort"
-        android:title="Courses" />
+        android:title="カテゴリー" />
 
     <item
         android:id="@+id/navigationHome"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="ホーム" />
 
     <item
         android:id="@+id/navigationSearch"
         android:icon="@android:drawable/ic_menu_search"
-        android:title="Search" />
+        android:title="検索" />
 
     <item
         android:id="@+id/navigationMyProfile"
         android:icon="@drawable/ic_user"
-        android:title="User" />
+        android:title="ユーザ" />
 
 </menu>

@@ -1,4 +1,4 @@
-package com.appsnipp.news;
+package com.sk3a.news;
 
 /**
  * Created by kapil on 05/10/18.

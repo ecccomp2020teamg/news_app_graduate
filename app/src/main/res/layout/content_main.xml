@@ -1,49 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sk3a.news.MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backcolor"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.appsnipp.news.MainActivity"
     tools:showIn="@layout/app_bar_main"
     style="@style/parent.contentLayout">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:paddingBottom="10dp"
-        android:elevation="999dp"
-        android:gravity="bottom"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/ic_edittext_bg"
-            android:hint="@string/text_hint"
-            android:textAlignment="center"
-            android:paddingLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"/>
-
-
-    </RelativeLayout>
-
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="?attr/actionBarSize">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
+            android:id="@+id/contentlayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingRight="@dimen/normalPadding"
-            android:paddingLeft="@dimen/normalPadding">
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:orientation="vertical">
+            <!--show the preview ,comment out visibility = "gone" above-->
 
+            <include layout="@layout/featured_post" />
+
+            <include layout="@layout/content_category" />
             <!--replace with recycler view-->
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
@@ -67,12 +52,12 @@
                     layout="@layout/layout_topics"/>
 
             </LinearLayout>
-            
-            <!--replace with recycler view-->
+
+            &lt;!&ndash;replace with recycler view&ndash;&gt;
             <include
                 layout="@layout/layout_featured_news"/>
 
-            <!--replace with recycler view-->
+            &lt;!&ndash;replace with recycler view&ndash;&gt;
 
 
             <include
@@ -90,9 +75,16 @@
                 layout="@layout/layout_news"/>
 
             <include
-                layout="@layout/layout_news"/>
-
+                layout="@layout/layout_news"/>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 
-</android.support.constraint.ConstraintLayout>
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

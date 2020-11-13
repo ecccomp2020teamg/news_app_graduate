@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">News App</string>
+
+    <string name="app_id">1:711916482955:android:c0eb2c5f63c6b69971ff8e</string>
+
+    <string name="app_name">News Reader</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

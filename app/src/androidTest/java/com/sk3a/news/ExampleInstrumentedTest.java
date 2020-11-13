@@ -1,4 +1,4 @@
-package com.appsnipp.news;
+package com.sk3a.news;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

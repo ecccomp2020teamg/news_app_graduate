@@ -1,4 +1,4 @@
-package com.appsnipp.news;
+package com.sk3a.news;
 
 import org.junit.Test;
 
