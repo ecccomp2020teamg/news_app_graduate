@@ -9,7 +9,7 @@ public class News {
     public News() {
     }
 
-    public News(int id, String title, String desc, String url, String date, String category, String isFeatured) {
+    public News(int id,String title, String desc, String url, String date, String category, String isFeatured) {
         this.id = id;
         this.title = title;
         this.desc = desc;

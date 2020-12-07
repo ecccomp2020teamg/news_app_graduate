@@ -36,15 +36,6 @@ import com.sk3a.news.Model.News;
 //import com.sk3a.news.adapters.CategoriesAdapter;
 import com.sk3a.news.adapters.FeaturedAdapter;
 import com.sk3a.news.adapters.HomeNewsAdapter;
-//<add this here> import com.sk3a.news.adapters.WallpapersAdapter;
-//import com.gdevs.newsapps.database.FavoriteDatabase;
-//import com.google.android.gms.ads.AdListener;
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.AdView;
-//import com.google.android.gms.ads.InterstitialAd;
-//import com.google.android.gms.ads.MobileAds;
-//import com.google.android.material.navigation.NavigationView;
-//import com.google.android.material.tabs.TabLayout;
 import android.support.design.widget.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -97,6 +88,7 @@ public class MainActivity extends AppCompatActivity
     Timer timer;
     ProgressBar progressBar;
     LinearLayout content_layout;
+
     //public static FavoriteDatabase favoriteDatabase;
     //AdView mAdView;
     //private InterstitialAd interstitialAd;
@@ -105,6 +97,8 @@ public class MainActivity extends AppCompatActivity
     private List<News> newsArrayList;
     private List<News> newsList;
     private HomeNewsAdapter wallpapersAdapter;
+
+    private String getkey;
 
     // Featured
     private ArrayList<News> mFeaturedList;
@@ -351,6 +345,7 @@ public class MainActivity extends AppCompatActivity
                         News news = wallpaperSnapshot.getValue(News.class);
 
                         newsList.add(news);
+
                     }
                     wallpapersAdapter.notifyDataSetChanged();
                 }
@@ -381,6 +376,7 @@ public class MainActivity extends AppCompatActivity
                 intent.putExtra(Intent.EXTRA_TEXT,shareBodyText);
                 startActivity(Intent.createChooser(intent,"share via"));
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

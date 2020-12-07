@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,12 @@ import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 //import com.sk3a.news.DetailsActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.sk3a.news.DetailsActivity;
 import com.sk3a.news.MainActivity;
 //import com.sk3a.news.Model.FavoriteList;
 import com.sk3a.news.Model.News;
@@ -27,6 +34,7 @@ import java.util.Random;
 public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.WallpaperViewHolder> {
 
     private Context mCtx;
+    private String news_id;
     private List<News> newsArrayList;
     private int STORAGE_PERMISSION_CODE = 1;
     ArrayList<String> colors = new ArrayList<>();
@@ -46,7 +54,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
     }
 
     @Override
-    public void onBindViewHolder(final WallpaperViewHolder holder, int position) {
+    public void onBindViewHolder(final WallpaperViewHolder holder, final int position) {
         final News news = newsArrayList.get(position);
 
 
@@ -110,9 +118,10 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
             }
         });*/
 
-        /*holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
+        holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(mCtx, DetailsActivity.class);
                 intent.putExtra("mid",news.getId());
                 intent.putExtra("mtitle",news.getTitle());
@@ -121,9 +130,12 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
                 intent.putExtra("mdate",news.getDate());
                 intent.putExtra("mdetails",news.getIsFeatured());
                 intent.putExtra("mcategory",news.getCategory());
+                intent.putExtra("news_id",news_id);
+
                 mCtx.startActivity(intent);
+
             }
-        });*/
+        });
     }
 
     @Override

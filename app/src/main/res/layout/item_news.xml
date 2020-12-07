@@ -55,7 +55,7 @@
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="How to Make Cartoon Filmy without Computer" />
+            tools:text="This is test" />
 
         <LinearLayout
             android:layout_width="match_parent"

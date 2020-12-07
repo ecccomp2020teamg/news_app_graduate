@@ -1,4 +1,3 @@
-/*
 package com.sk3a.news.adapters;
 
 import android.content.Context;
@@ -15,10 +14,7 @@ import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.sk3a.news.Config;
-//import com.sk3a.news.DetailsActivity;
-import com.sk3a.news.MainActivity;
-//import com.sk3a.news.Model.FavoriteList;
+import com.sk3a.news.DetailsActivity;
 import com.sk3a.news.Model.News;
 import com.sk3a.news.R;
 
@@ -27,7 +23,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapters.WallpapersAdapter.WallpaperViewHolder> {
+public class RelatedNewsAdapter extends RecyclerView.Adapter<com.sk3a.news.adapters.RelatedNewsAdapter.WallpaperViewHolder> {
 
     private Context mCtx;
     private List<News> wallpaperList;
@@ -35,30 +31,22 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
     ArrayList<String> colors = new ArrayList<>();
 
 
-    public WallpapersAdapter(Context mCtx, List<News> wallpaperList) {
+
+
+    public RelatedNewsAdapter(Context mCtx, List<News> wallpaperList) {
         this.mCtx = mCtx;
         this.wallpaperList = wallpaperList;
     }
 
     @Override
     public WallpaperViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (Config.homePageLayout){
-            View view = LayoutInflater.from(mCtx).inflate(R.layout.item_grid, parent, false);
-            return new WallpaperViewHolder(view);
-        }else {
-            View view = LayoutInflater.from(mCtx).inflate(R.layout.item_news, parent, false);
-            return new WallpaperViewHolder(view);
-        }
+        View view = LayoutInflater.from(mCtx).inflate(R.layout.item_related, parent, false);
+        return new WallpaperViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final WallpaperViewHolder holder, int position) {
         final News news = wallpaperList.get(position);
-
-//        Typeface font = Typeface.createFromAsset(mCtx.getAssets(),
-//                "fonts/hindi.ttf");
-
-//        holder.textView.setTypeface(font);
 
         //title
         holder.title.setText(news.getTitle());
@@ -66,7 +54,6 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
         holder.date.setText(news.getDate());
         //category
         holder.category.setText(news.getCategory());
-
 
         colors.add("#673AB7");
         colors.add("#FFC107");
@@ -84,8 +71,7 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
                 .load(news.getUrl())
                 .into(holder.imageView);
 
-        */
-/*if (MainActivity.favoriteDatabase.favoriteDao().isFavorite(news.getId())==1)
+        /*if (MainActivity.favoriteDatabase.favoriteDao().isFavorite(news.getId())==1)
             holder.fav_btn.setImageResource(R.drawable.ic_favorite_red);
         else
             holder.fav_btn.setImageResource(R.drawable.ic_favorite_black);
@@ -122,7 +108,7 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
                 }
             }
         });
-
+*/
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,8 +122,7 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
                 intent.putExtra("mcategory",news.getCategory());
                 mCtx.startActivity(intent);
             }
-        });*//*
-
+        });
     }
 
     @Override
@@ -167,4 +152,3 @@ public class WallpapersAdapter extends RecyclerView.Adapter<com.sk3a.news.adapte
         }
     }
 }
-*/
