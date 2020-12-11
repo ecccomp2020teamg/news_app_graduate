@@ -215,8 +215,8 @@ public class DetailsActivity extends AppCompatActivity {
                     comment = child.getValue(String.class);
                     list.add(comment);
 
-                    Toast.makeText(getApplicationContext(),
-                            comment.toString(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(),
+                            //comment.toString(), Toast.LENGTH_LONG).show();
                 }
             }
 
