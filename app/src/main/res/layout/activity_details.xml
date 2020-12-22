@@ -129,24 +129,56 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/date_layout"/>
+            <TextView
+                android:id="@+id/comment_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/news_desc"
+                android:layout_marginLeft="10dp"
+                android:text="コメント一覧："
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp">
 
-            <ListView
+            </TextView>
+
+           <!-- <com.sk3a.news.NestedListView
                 android:id="@+id/read_comment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/news_desc"
-                android:divider="@color/colorPrimaryDark" />
+                android:layout_below="@id/comment_list"
+                android:divider="#808080"
+                android:fontFamily="sans-serif-medium">
+            </com.sk3a.news.NestedListView>-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/read_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/comment_list"
+                android:fontFamily="sans-serif-medium">
+
+            </android.support.v7.widget.RecyclerView>
+
             <Button
                 android:id= "@+id/news_comment"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/read_comment"
                 android:text="コメント"
                 android:textStyle="bold"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="@color/colorPrimary"
+                android:ellipsize="start"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:layout_centerVertical="true"
                 />
 
             <LinearLayout
@@ -162,13 +194,14 @@
                     android:text="関連ニュース"
                     android:textSize="20dp"
                     android:textStyle="bold"
-                    android:layout_margin="5dp"
+                    android:layout_margin="10dp"
                     android:textColor="@android:color/black"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"/>
 
             </LinearLayout>
 

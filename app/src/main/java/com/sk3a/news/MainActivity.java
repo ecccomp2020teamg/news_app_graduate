@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity
     private List<News> newsList;
     private HomeNewsAdapter wallpapersAdapter;
 
-    private String getkey;
-
     // Featured
     private ArrayList<News> mFeaturedList;
     private ViewPager mFeaturedPager;
@@ -387,7 +385,7 @@ public class MainActivity extends AppCompatActivity
         new AlertDialog.Builder(this)
                 .setIcon(R.drawable.ic_favorite_red)
                 .setTitle(getString(R.string.app_name))
-                .setMessage("Are you sure you want to close this App?")
+                .setMessage("アプリを閉じたいですか？")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener()
                 {
                     @Override

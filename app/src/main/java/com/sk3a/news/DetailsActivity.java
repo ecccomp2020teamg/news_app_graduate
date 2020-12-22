@@ -1,6 +1,7 @@
 package com.sk3a.news;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.nfc.Tag;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -41,11 +44,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.sk3a.news.adapters.CommentNewsAdapter;
+import com.sk3a.news.adapters.HomeNewsAdapter;
 import com.sk3a.news.adapters.RelatedNewsAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
@@ -61,11 +70,15 @@ public class DetailsActivity extends AppCompatActivity {
     List<News> wallpaperList;
     List<News> favList;
 
-    //comment
-    List<Comments> commentsList;
+    //comment list
+    private List<Comments> newsArrayList;
+    private List<Comments> newsList;
+    private CommentNewsAdapter wallpapersAdapter;
 
     ListView listView;
     RecyclerView recyclerView;
+    RecyclerView recyclerView_comment;
+
     RelatedNewsAdapter adapter;
     ProgressBar progressBar;
     DatabaseReference dbWallpapers, dbFavs;
@@ -73,6 +86,7 @@ public class DetailsActivity extends AppCompatActivity {
     private DatabaseReference newsDetails;
 
     DatabaseReference mDatabaseReference;
+    DatabaseReference Comment_DatabaseReference;
 
     //for comment fuction
     private AlertDialog.Builder dialogBuilder;
@@ -82,14 +96,9 @@ public class DetailsActivity extends AppCompatActivity {
     private ImageView user_image;
     private Button button_comments,button_cancle;
     private Button news_comment;
-    private String getkey;
-
     private long count;
-    private int user_id;
 
     private String comment = "";
-    private int count_comment = 1;
-
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayAdapter<String> adapter_listview;
 
@@ -195,38 +204,21 @@ public class DetailsActivity extends AppCompatActivity {
             }
         });
 
+        //show comment in recycle view here
+        newsList = new ArrayList<>();
 
+        recyclerView_comment = findViewById(R.id.read_comment);
+        recyclerView_comment.setHasFixedSize(true);
 
-        DatabaseReference reference_comment = FirebaseDatabase.getInstance().getReference().child("comments");
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(this);
+        layoutManager1.setReverseLayout(true);
+        layoutManager1.setStackFromEnd(true);
+        recyclerView_comment.setLayoutManager(layoutManager1);
 
-        DatabaseReference ref_user = reference_comment.child(String.valueOf(myid)).child("0").getRef();
+        wallpapersAdapter = new CommentNewsAdapter(this, newsList);
+        recyclerView_comment.setAdapter(wallpapersAdapter);
 
-
-        //DatabaseReference ref_comment = ref_user.child(String.valueOf(user_id)).getRef();
-
-        //to show the comment in Firebase here
-
-        listView = (ListView) findViewById(R.id.read_comment);
-
-        ref_user.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(final DataSnapshot dataSnapshot) {
-                for (DataSnapshot child : dataSnapshot.getChildren()) {
-                    comment = child.getValue(String.class);
-                    list.add(comment);
-
-                    //Toast.makeText(getApplicationContext(),
-                            //comment.toString(), Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onCancelled(final DatabaseError databaseError) {
-            }
-        });
-        adapter_listview = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_2,list);
-        listView.setAdapter(adapter_listview);
-        adapter_listview.notifyDataSetChanged();
+        fetchComments();
     }
 
     @Override
@@ -259,69 +251,98 @@ public class DetailsActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-    public void createNewCommentDialog(){
-        dialogBuilder = new AlertDialog.Builder(this);
-        final View commentView = getLayoutInflater().inflate(R.layout.activity_comments,null);
+    public void createNewCommentDialog() {
 
+        LayoutInflater inflater
+                = LayoutInflater.from(DetailsActivity.this);
+        View commentView = inflater.inflate(R.layout.activity_comments, null);
         //get id from user input
-        user_image = (ImageView)commentView.findViewById(R.id.user_image);
-        user_name_id = (EditText)commentView.findViewById(R.id.user_name);
-        user_email_id = (EditText)commentView.findViewById(R.id.user_mail);
-        user_comments_id = (EditText)commentView.findViewById(R.id.user_comment);
-
-        //button click ?
-        button_comments = (Button)commentView.findViewById(R.id.button_content);
-        button_cancle = (Button)commentView.findViewById(R.id.button_cancle);
-
-
-        user_image.setImageResource(R.drawable.avatar);
-        dialogBuilder.setView(commentView);
-        dialog = dialogBuilder.create();
-        dialog.show();
+        user_name_id = commentView.findViewById(R.id.user_name);
+        user_email_id = commentView.findViewById(R.id.user_mail);
+        user_comments_id = commentView.findViewById(R.id.user_comment);
 
         //firebase connection here
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("comments");
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("comment");
 
 
-        // データベースの参照を取得する
-        final DatabaseReference ref = mDatabaseReference.child(String.valueOf(myid)).child(String.valueOf(user_id)).getRef();
+        new AlertDialog.Builder(DetailsActivity.this)
+                .setTitle("こんにちは!")
+                .setIcon(R.drawable.avatar)
+                .setView(commentView)
+                .setPositiveButton(
+                        "OK",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //get text from id
+                                user_comments = user_comments_id.getText().toString();
+                                user_name = user_name_id.getText().toString();
+                                user_email = user_email_id.getText().toString();
+                                final String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                // データベースの参照を取得する
+                                final DatabaseReference ref = mDatabaseReference.child(String.valueOf(myid)).getRef();
+
+                                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        count = dataSnapshot.getChildrenCount() + 1;
+
+                                        ref.child(String.valueOf(count)).child("user_date").setValue(currentDate);
+                                        ref.child(String.valueOf(count)).child("user_email").setValue(user_email);
+                                        ref.child(String.valueOf(count)).child("user_name").setValue(user_name);
+                                        ref.child(String.valueOf(count)).child("user_comment").setValue(user_comments);
+                                        count++;
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+
+                                });
+
+                                Context context = getApplicationContext();
+
+                                Toast.makeText(context, "コメント追加に成功しました", Toast.LENGTH_LONG).show();
+
+                                dialog.dismiss();
+                            }
+                        })
+                .setNegativeButton(
+                        "キャンセル",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                .show();
+    }
+
+    private void fetchComments() {
+        //show the comment here
+
+        Comment_DatabaseReference = FirebaseDatabase.getInstance().getReference("comment").child(String.valueOf(myid)).getRef();
+
+        Comment_DatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                count = dataSnapshot.getChildrenCount();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot wallpaperSnapshot : dataSnapshot.getChildren()) {
+
+                        Comments comments = wallpaperSnapshot.getValue(Comments.class);
+
+                        newsList.add(comments);
+
+                    }
+                    wallpapersAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
-
-        button_comments.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-
-                //get text from id
-                user_comments = user_comments_id.getText().toString();
-                user_name = user_name_id.getText().toString();
-                user_email = user_email_id.getText().toString();
-
-                count = count + 1;
-
-                ref.child("comment"+count).setValue(user_comments);
-
-                Context context = getApplicationContext();
-
-                Toast.makeText(context , "コメント追加に成功しました", Toast.LENGTH_LONG).show();
-
-                dialog.cancel();
-            }
-        });
-
-        button_cancle.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                dialog.cancel();
             }
         });
     }

@@ -80,43 +80,6 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
                 .load(news.getUrl())
                 .into(holder.imageView);
 
-        /*if (MainActivity.favoriteDatabase.favoriteDao().isFavorite(news.getId())==1)
-            holder.fav_btn.setImageResource(R.drawable.ic_favorite_red);
-        else
-            holder.fav_btn.setImageResource(R.drawable.ic_favorite_black);
-
-        holder.fav_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FavoriteList favoriteList=new FavoriteList();
-
-                int id=news.getId();
-                String name= news.getTitle();
-                String date = news.getDate();
-                String category= news.getCategory();
-                String desc= news.getDesc();
-                String image= news.getUrl();
-
-                favoriteList.setId(id);
-                favoriteList.setName(name);
-                favoriteList.setDate(date);
-                favoriteList.setCategory(category);
-                favoriteList.setDesc(desc);
-                favoriteList.setImage(image);
-
-                if (MainActivity.favoriteDatabase.favoriteDao().isFavorite(id)!=1){
-                    holder.fav_btn.setImageResource(R.drawable.ic_favorite_red);
-                    MainActivity.favoriteDatabase.favoriteDao().addData(favoriteList);
-
-
-                }else {
-                    holder.fav_btn.setImageResource(R.drawable.ic_favorite_black);
-                    MainActivity.favoriteDatabase.favoriteDao().delete(favoriteList);
-
-
-                }
-            }
-        });*/
 
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
