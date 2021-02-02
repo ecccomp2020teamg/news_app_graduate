@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main_Activity_Fragment">
+
+   <android.support.design.widget.AppBarLayout
+       android:id="@+id/appbar"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:background="@color/colorPrimary">
+
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          app:title="@string/app_name"
+          app:navigationIcon="@drawable/ic_arrow_back"
+          android:background="@color/colorPrimary"
+          app:titleTextColor="@android:color/white" />
+
+   </android.support.design.widget.AppBarLayout>
+
+   <RelativeLayout
+
+       android:layout_width="wrap_content"
+       android:layout_height="190dp"
+       android:layout_gravity="center">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:orientation="vertical"
+          android:weightSum="3">
+         <android.support.v7.widget.CardView
+             android:layout_marginTop="30dp"
+             android:layout_width="120dp"
+             android:layout_gravity="center"
+             app:cardCornerRadius="60dp"
+             android:layout_height="120dp">
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/profileImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/account_images">
+            </ImageView>
+         </android.support.v7.widget.CardView>
+      </LinearLayout>
+   </RelativeLayout>
+<!--   <TextView
+       android:textAlignment="center"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:text="個人情報"
+       android:textColor="@color/darkTextColor"
+       android:textSize="40dp"
+       android:textStyle="bold">
+   </TextView>-->
+
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_gravity="center"
+       android:gravity="center">
+
+       <TextView
+           android:layout_marginLeft="15dp"
+           android:text="ユーザー名"
+           android:textSize="25dp"
+           android:textStyle="bold"
+           android:textColor="@color/darkTextColor"
+           android:layout_marginTop="20dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:gravity="center">
+       </TextView>
+      <TextView
+          android:gravity="center"
+          android:layout_marginLeft="25dp"
+          android:id="@+id/profileName"
+          android:hint="未確認"
+          android:textColor="@color/darkTextColor"
+          android:textSize="20dp"
+          android:layout_marginTop="70dp"
+          android:layout_width="match_parent"
+          android:layout_height="40dp">
+      </TextView>
+      <TextView
+          android:gravity="center"
+          android:layout_marginLeft="15dp"
+          android:layout_marginTop="132dp"
+          android:text="メールアドレス"
+          android:textColor="@color/darkTextColor"
+          android:textStyle="bold"
+          android:textSize="20dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+      </TextView>
+      <TextView
+          android:gravity="center"
+          android:layout_marginLeft="25dp"
+          android:id="@+id/profileEmail"
+          android:hint="Email"
+          android:textColor="@color/darkTextColor"
+          android:textSize="20dp"
+          android:layout_marginTop="172dp"
+          android:layout_width="match_parent"
+          android:layout_height="40dp">
+      </TextView>
+      <TextView
+          android:gravity="center"
+          android:layout_marginLeft="15dp"
+          android:textColor="@color/darkTextColor"
+          android:layout_marginTop="230dp"
+          android:text="電話番号"
+          android:textStyle="bold"
+          android:textSize="20dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+      </TextView>
+      <TextView
+          android:gravity="center"
+          android:layout_marginLeft="25dp"
+          android:id="@+id/profilePhone"
+          android:textSize="20dp"
+          android:textColor="@color/darkTextColor"
+          android:layout_marginTop="272dp"
+          android:layout_width="match_parent"
+          android:layout_height="40dp">
+      </TextView>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:layout_below="@id/profilePhone"
+          android:layout_marginTop="60dp">
+
+
+         <Button
+             android:layout_marginLeft="20dp"
+             android:id="@+id/changeProfile"
+             android:text="設定"
+             android:background="@drawable/custom_button"
+             android:textColor="@color/darkTextColor"
+             android:textStyle="bold"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="30dp">
+
+         </Button>
+         <Button
+             android:id="@+id/resetPasswordLocal"
+             android:text="パスワードを変更"
+             android:textStyle="bold"
+             android:background="@drawable/custom_button"
+             android:textColor="@color/darkTextColor"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="30dp">
+
+         </Button>
+         <Button
+
+             android:textStyle="bold"
+             android:textColor="@color/darkTextColor"
+             android:id="@+id/button_logout"
+             android:text="ログアウト"
+             android:background="@drawable/custom_button"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content">
+         </Button>
+      </LinearLayout>
+   </RelativeLayout>
+</LinearLayout>

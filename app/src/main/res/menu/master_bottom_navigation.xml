@@ -4,7 +4,7 @@
     <item
         android:id="@+id/navigationMenu"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="メニュー" />
+        android:title="気に入り一覧" />
 
     <item
         android:id="@+id/navigationMyCourses"

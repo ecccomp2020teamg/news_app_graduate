@@ -7,4 +7,8 @@
     <dimen name="normalPadding">10dp</dimen>
     <dimen name="headerTextSize">25sp</dimen>
 
+    <!-- part of Cuong -->
+    <dimen name="newsMoreTextSize">12sp</dimen>
+    <dimen name="loginViewsMargin">20dp</dimen>
+
 </resources>

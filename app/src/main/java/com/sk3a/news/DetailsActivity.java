@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -36,7 +36,12 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
+import com.sk3a.news.Login.User_Login;
+import com.sk3a.news.Login.User_Register;
 import com.sk3a.news.Model.Comments;
 import com.sk3a.news.Model.News;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +53,18 @@ import com.sk3a.news.adapters.CommentNewsAdapter;
 import com.sk3a.news.adapters.HomeNewsAdapter;
 import com.sk3a.news.adapters.RelatedNewsAdapter;
 
+//from Cuong
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +74,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 public class DetailsActivity extends AppCompatActivity {
+
 
     RelativeLayout relativeLayout;
     TextView title ,date, categoryname;
@@ -92,8 +112,8 @@ public class DetailsActivity extends AppCompatActivity {
     private AlertDialog.Builder dialogBuilder;
     private  AlertDialog dialog;
     private EditText user_name_id,user_email_id,user_comments_id;
-    private String user_name, user_email,user_comments;
-    private ImageView user_image;
+    private String user_name, user_email,user_comments,user_avatar;
+    private ImageView user_image,user_image_id;
     private Button button_comments,button_cancle;
     private Button news_comment;
     private long count;
@@ -101,6 +121,18 @@ public class DetailsActivity extends AppCompatActivity {
     private String comment = "";
     private ArrayList<String> list = new ArrayList<String>();
     private ArrayAdapter<String> adapter_listview;
+
+    //import from Cuong
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private FirebaseUser user;
+    private String userId;
+    private StorageReference storageReference;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
+    // Bien images
+    ImageView profileImage;
+    String login_confirm = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,15 +200,24 @@ public class DetailsActivity extends AppCompatActivity {
                 .load(myimg)
                 .into(imageView);
 
-
         //for the comments fuction
         news_comment = findViewById(R.id.news_comment);
         news_comment.setOnClickListener(new View.OnClickListener(){
+
             @Override
             public void onClick(View v){
-                createNewCommentDialog();
+                user = fAuth.getInstance().getCurrentUser();
+                fStore = FirebaseFirestore.getInstance();
+                storageReference = FirebaseStorage.getInstance().getReference();
+                if (user != null) {
+                    createNewCommentDialog();
+                }
+                else {
+                    login_createNewCommentDialog();
+                }
             }
         });
+
 
         //for the related news here
         dbWallpapers.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -260,14 +301,75 @@ public class DetailsActivity extends AppCompatActivity {
         user_name_id = commentView.findViewById(R.id.user_name);
         user_email_id = commentView.findViewById(R.id.user_mail);
         user_comments_id = commentView.findViewById(R.id.user_comment);
+        user_image_id = commentView.findViewById(R.id.user_image_add);
 
         //firebase connection here
         mDatabaseReference = FirebaseDatabase.getInstance().getReference().child("comment");
 
+        user = fAuth.getInstance().getCurrentUser();
+        userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        //Toast.makeText(getApplicationContext(), userId, Toast.LENGTH_LONG).show();
+
+        // get data from google account then export name and email to alert dialog
+        final GoogleSignInAccount signInAccount = GoogleSignIn.getLastSignedInAccount(this);
+        if (signInAccount != null) {
+            // get user name
+            user_name_id.setText(signInAccount.getDisplayName());
+            //get email
+            user_email_id.setText(signInAccount.getEmail());
+            //get email
+            //Uri photo = signInAccount.getPhotoUrl();
+            //Glide.with(this).load(String.valueOf(photo)).into(user_image_id);
+        }
+
+        // get data from facebook
+        if(user!=null){
+            // get profile picture
+            //Glide.with(this).load(user.getPhotoUrl()).into(user_image_id);
+            // get email
+            user_email_id.setText(user.getEmail());
+            // get name
+            user_name_id.setText(user.getDisplayName());
+
+        }
+
+
+
+        //get profile picture from storage in firebase
+        final DocumentReference documentReference = fStore.collection("users").document(userId);
+        documentReference.addSnapshotListener( new EventListener<DocumentSnapshot>() {
+
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException e) {
+                if(e != null){
+                    Toast.makeText(getApplicationContext(), "Listen faild"+ e, Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(documentSnapshot != null && documentSnapshot.exists()){
+
+                    user_name_id.setText(documentSnapshot.getString("UserName"));
+                    user_email_id.setText(documentSnapshot.getString("Email"));
+
+                }else {
+                    Toast.makeText(getApplicationContext(), "エラーが発生したよ", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+        StorageReference profileRef = storageReference.child("users/" + fAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
+        if (profileRef == null){
+        }else{
+        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(user_image_id);
+            }
+        });}
 
         new AlertDialog.Builder(DetailsActivity.this)
                 .setTitle("こんにちは!")
-                .setIcon(R.drawable.avatar)
+                //.setIcon(R.drawable.avatar)
+                //.setIcon(R.drawable.avatar)
                 .setView(commentView)
                 .setPositiveButton(
                         "OK",
@@ -278,6 +380,20 @@ public class DetailsActivity extends AppCompatActivity {
                                 user_comments = user_comments_id.getText().toString();
                                 user_name = user_name_id.getText().toString();
                                 user_email = user_email_id.getText().toString();
+                                StorageReference profileRef = storageReference.child("users/" + fAuth.getInstance().getCurrentUser().getUid() + "/profile.jpg");
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                                {
+                                    @Override
+                                    public void onSuccess(Uri downloadUrl)
+                                    {
+                                        user_avatar = downloadUrl.toString();
+                                    }
+                                });
+                                if (profileRef == null){
+                                    user_avatar = "";
+                                }else {
+                                    user_avatar = profileRef.toString();
+                                }
                                 final String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                                 // データベースの参照を取得する
@@ -291,6 +407,7 @@ public class DetailsActivity extends AppCompatActivity {
                                         ref.child(String.valueOf(count)).child("user_email").setValue(user_email);
                                         ref.child(String.valueOf(count)).child("user_name").setValue(user_name);
                                         ref.child(String.valueOf(count)).child("user_comment").setValue(user_comments);
+                                        ref.child(String.valueOf(count)).child("user_avatar").setValue(user_avatar);
                                         count++;
 
                                     }
@@ -320,7 +437,25 @@ public class DetailsActivity extends AppCompatActivity {
                 .show();
     }
 
+    public void login_createNewCommentDialog() {
+
+        new AlertDialog.Builder(DetailsActivity.this)
+                .setTitle("警告！")
+                .setMessage("この機能を使うにはログインしてください！")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // OK button pressed
+                        startActivity(new Intent(getApplicationContext(),User_Login.class));
+                        //Toast.makeText(getApplicationContext(), "コメントする前にログインしてください", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .setNegativeButton("キャンセル", null)
+                .show();
+    }
+
     private void fetchComments() {
+
         //show the comment here
 
         Comment_DatabaseReference = FirebaseDatabase.getInstance().getReference("comment").child(String.valueOf(myid)).getRef();

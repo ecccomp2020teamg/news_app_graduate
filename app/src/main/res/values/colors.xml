@@ -16,5 +16,25 @@
     <color name="miniTitle">#2A2E43</color>
     <color name="featuredNewsContentColor">#8E909A</color>
 
+    <color name="colorgreen">#A8F6B8</color>
+    <color name="colorwhite">#F5F3F8</color>
+    <color name="gray_color">#736D6D</color>
+    <color name="themeColor">#11CFC5</color>
+    <color name="maunen">#7086FA</color>
+    <color name="maunen1">#92A3FA</color>
+    <color name="maunen2">#042BF6</color>
+    <!--normal colors-->
+    <color name="darkTextColor">#020000</color>
+    <color name="green">#68F368</color>
+    <color name="red">#F84323</color>
+    <color name="whitle">#FFFFFF</color>
+    <!--colors for light mode-->
+    <color name="register_bk_color">#052AF6</color>
+    <color name="login_bk_color">#F4E9E9</color>
+    <color name="whiteTextColor">#F83232</color>
+    <color name="primaryTextColor">#3E5AF4</color>
+    <color name="TextColor_hint">#726C73</color>
+    <color name="Backgroud_color">#ACEEF6</color>
+
 
 </resources>

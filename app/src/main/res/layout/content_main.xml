@@ -11,6 +11,7 @@
     tools:showIn="@layout/app_bar_main"
     style="@style/parent.contentLayout">
 
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,55 +28,6 @@
             <include layout="@layout/featured_post" />
 
             <include layout="@layout/content_category" />
-            <!--replace with recycler view-->
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-                <include
-                    layout="@layout/layout_topics"/>
-
-            </LinearLayout>
-
-            &lt;!&ndash;replace with recycler view&ndash;&gt;
-            <include
-                layout="@layout/layout_featured_news"/>
-
-            &lt;!&ndash;replace with recycler view&ndash;&gt;
-
-
-            <include
-                layout="@layout/layout_news"/>
-
-            <include
-                layout="@layout/layout_news"/>
-
-            <include
-                layout="@layout/layout_news"/>
-
-            <include
-                layout="@layout/layout_news"/>
-            <include
-                layout="@layout/layout_news"/>
-
-            <include
-                layout="@layout/layout_news"/>-->
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

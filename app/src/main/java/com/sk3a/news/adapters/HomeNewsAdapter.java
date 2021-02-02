@@ -4,7 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 //import com.sk3a.news.DetailsActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -21,8 +29,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sk3a.news.DetailsActivity;
+import com.sk3a.news.Fragment.DetailsActivity_Fragment;
+import com.sk3a.news.Fragment.MainActivity_Fragment;
+import com.sk3a.news.Fragment.User_MainActivity_Fragment;
 import com.sk3a.news.MainActivity;
 //import com.sk3a.news.Model.FavoriteList;
+import com.sk3a.news.Main_Activity_Fragment;
 import com.sk3a.news.Model.News;
 import com.sk3a.news.R;
 
@@ -85,7 +97,7 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mCtx, DetailsActivity.class);
+                Intent intent = new Intent(mCtx, DetailsActivity_Fragment.class);
                 intent.putExtra("mid",news.getId());
                 intent.putExtra("mtitle",news.getTitle());
                 intent.putExtra("mdesc",news.getDesc());
@@ -95,7 +107,49 @@ public class HomeNewsAdapter extends RecyclerView.Adapter<HomeNewsAdapter.Wallpa
                 intent.putExtra("mcategory",news.getCategory());
                 intent.putExtra("news_id",news_id);
 
-                mCtx.startActivity(intent);
+
+//                MainActivity_Fragment f = new MainActivity_Fragment();
+//                Bundle args = new Bundle();
+//                args.putInt("mid", news.getId());
+//                args.putString("mtitle", news.getTitle());
+//                args.putString("mdesc", news.getDesc());
+//                args.putString("mimage", news.getUrl());
+//                args.putString("mdate", news.getDate());
+//                args.putString("mdetails", news.getIsFeatured());
+//                args.putString("mcategory", news.getCategory());
+//                args.putString("news_id", news_id);
+//
+//
+//
+//                f.setArguments(args);
+//                Toast.makeText(mCtx, news.getTitle(), Toast.LENGTH_LONG).show();
+
+                //Fragment b = new DetailsActivity_Fragment();
+
+                //((AppCompatActivity)mCtx).getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,b,"details_fragment").addToBackStack(null).commit();
+
+                //mCtx.startActivity(intent);
+
+                Fragment homepage = new DetailsActivity_Fragment();
+
+                FragmentTransaction fragmentManager =((FragmentActivity)mCtx).getSupportFragmentManager()
+                        .beginTransaction();
+
+                Bundle args = new Bundle();
+                args.putInt("mid", news.getId());
+                args.putString("mtitle", news.getTitle());
+                args.putString("mdesc", news.getDesc());
+                args.putString("mimage", news.getUrl());
+                args.putString("mdate", news.getDate());
+                args.putString("mdetails", news.getIsFeatured());
+                args.putString("mcategory", news.getCategory());
+                args.putString("news_id", news_id);
+                homepage.setArguments(args);
+
+
+                fragmentManager.replace(R.id.frame_layout, homepage,"details");
+                fragmentManager.addToBackStack(null);
+                fragmentManager.commit();
 
             }
         });

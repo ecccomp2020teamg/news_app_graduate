@@ -15,25 +15,20 @@ import android.view.MenuItem;
 
 //add more here
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 //import com.sk3a.news.Model.Category;
+import com.sk3a.news.Fragment.User_Login_Fragment;
+import com.sk3a.news.Login.User_Login;
 import com.sk3a.news.Model.News;
-//import com.sk3a.news.adapters.CategoriesAdapter;
+//import com.sk3a.news.adapters.CategoryAdapter;
 import com.sk3a.news.adapters.FeaturedAdapter;
 import com.sk3a.news.adapters.HomeNewsAdapter;
 import android.support.design.widget.TabLayout;
@@ -61,14 +56,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 //import androidx.recyclerview.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView;
-//import androidx.room.Room;
-import android.arch.persistence.room.Room;
-//import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,21 +115,34 @@ public class MainActivity extends AppCompatActivity
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
+            Fragment selectedFragment = null;
             switch (item.getItemId()) {
                 case R.id.navigationMyProfile:
+                    Intent user = new Intent(getApplication(), User_Login.class);
+                    startActivity(user);
                     return true;
                 case R.id.navigationMyCourses:
                     return true;
                 case R.id.navigationHome:
+                    if(false) {
+                        Intent home = new Intent(getApplication(), MainActivity.class);
+                        startActivity(home);
+                        return false;
+                    }
                     return true;
                 case  R.id.navigationSearch:
+
+                    selectedFragment = new User_Login_Fragment();
+
                     return true;
                 case  R.id.navigationMenu:
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.openDrawer(GravityCompat.START);
                     return true;
             }
-            return false;
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,
+                selectedFragment).commit();
+            return true;
         }
     };
 
@@ -159,6 +163,8 @@ public class MainActivity extends AppCompatActivity
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -169,6 +175,7 @@ public class MainActivity extends AppCompatActivity
 
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 //
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());

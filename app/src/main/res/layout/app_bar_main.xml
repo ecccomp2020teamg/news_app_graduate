@@ -59,20 +59,4 @@
 
     <include
         layout="@layout/content_main" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="?android:attr/windowBackground"
-        android:foreground="?attr/selectableItemBackground"
-        app:menu="@menu/master_bottom_navigation"
-        app:elevation="10dp"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@color/bottom_navigation_color"
-        app:itemTextColor="@color/bottom_navigation_color"
-        app:itemBackground="@color/bottomNavigationBackground"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>/>
-
 </android.support.design.widget.CoordinatorLayout>

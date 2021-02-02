@@ -4,6 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.sk3a.news.DetailsActivity;
+import com.sk3a.news.Fragment.DetailsActivity_Fragment;
 import com.sk3a.news.Model.News;
 import com.sk3a.news.R;
 
@@ -74,15 +79,34 @@ public class RelatedNewsAdapter extends RecyclerView.Adapter<com.sk3a.news.adapt
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mCtx, DetailsActivity.class);
-                intent.putExtra("mid",news.getId());
-                intent.putExtra("mtitle",news.getTitle());
-                intent.putExtra("mdesc",news.getDesc());
-                intent.putExtra("mimage",news.getUrl());
-                intent.putExtra("mdate",news.getDate());
-                intent.putExtra("mdetails",news.getIsFeatured());
-                intent.putExtra("mcategory",news.getCategory());
-                mCtx.startActivity(intent);
+//                Intent intent = new Intent(mCtx, DetailsActivity.class);
+//                intent.putExtra("mid",news.getId());
+//                intent.putExtra("mtitle",news.getTitle());
+//                intent.putExtra("mdesc",news.getDesc());
+//                intent.putExtra("mimage",news.getUrl());
+//                intent.putExtra("mdate",news.getDate());
+//                intent.putExtra("mdetails",news.getIsFeatured());
+//                intent.putExtra("mcategory",news.getCategory());
+//                mCtx.startActivity(intent);
+                Fragment homepage = new DetailsActivity_Fragment();
+                FragmentTransaction fragmentManager =((FragmentActivity)mCtx).getSupportFragmentManager()
+                        .beginTransaction();
+
+                Bundle args = new Bundle();
+                args.putInt("mid", news.getId());
+                args.putString("mtitle", news.getTitle());
+                args.putString("mdesc", news.getDesc());
+                args.putString("mimage", news.getUrl());
+                args.putString("mdate", news.getDate());
+                args.putString("mdetails", news.getIsFeatured());
+                args.putString("mcategory", news.getCategory());
+                //args.putString("news_id", news_id);
+                homepage.setArguments(args);
+
+
+                fragmentManager.add(R.id.frame_layout, homepage);
+                fragmentManager.addToBackStack(null);
+                fragmentManager.commit();
             }
         });
     }

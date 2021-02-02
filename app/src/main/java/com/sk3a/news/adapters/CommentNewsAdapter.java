@@ -59,10 +59,13 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
         //user_comment
         holder.user_comment.setText(comments.getUser_comment());
         //comment image
-        //Glide.with(mCtx)
-                //.load(news.getUrl())
-                //.into(holder.imageView);
 
+        if(comments.getUser_avatar() == null){
+        } else{
+            Glide.with(mCtx)
+                    .load(comments.getUser_avatar())
+                    .into(holder.user_avatar);
+        }
     }
 
     @Override
@@ -75,17 +78,16 @@ public class CommentNewsAdapter extends RecyclerView.Adapter<CommentNewsAdapter.
 
 
         TextView user_date, user_comment,user_name;
-        ImageView user_image;
+        ImageView user_avatar;
         RelativeLayout relativeLayout;
 
         public WallpaperViewHolder(View itemView) {
             super(itemView);
 
-
             user_comment = itemView.findViewById(R.id.user_comment);
             user_date = itemView.findViewById(R.id.user_date);
             user_name = itemView.findViewById(R.id.user_name);
-            user_image = itemView.findViewById(R.id.user_image);
+            user_avatar = itemView.findViewById(R.id.user_image);
         }
     }
 }

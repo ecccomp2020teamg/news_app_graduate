@@ -100,7 +100,7 @@
 
     </LinearLayout>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/btn_fav"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -112,7 +112,7 @@
         android:contentDescription="@string/app_name"
         android:padding="8dp"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_favorite_black" />
+        android:src="@drawable/ic_favorite_black" />-->
 
     </RelativeLayout>
 
